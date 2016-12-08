@@ -1,0 +1,586 @@
+FORMAT: 1A
+HOST: https://willo.apiblueprint.org/
+
+# willosworld
+
+## Authorization [/auth]
+
+### Login [POST /auth/login]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "email": "willo@gmail.com"
+                "password": "willo1234"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "token": "auth token"
+            }
+
+### Reset password [POST /auth/password/reset]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "email": "willo@gmail.com"
+            }
+
++ Response 200 (application/json)
+
+### Confirm code [POST /auth/password/confirm]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "code": "1234"
+                "password": "new password"
+            }
+
++ Response 200 (application/json)
+
+## User [/user{?page,query}]
+
+### Get all users [GET]
+
++ Parameters
+    + page (optional, number, `1`)
+    + query (optional, string, `willo`)
+
++ Response 200 (application/json)
+
+    + Attribute (Pager_User)
+
+### Create new user [POST]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "username": "willo"
+                "email": "willo@gmail.com"
+                "password": "willo1234"
+            }
+
++ Response 201
+
+    + Body
+
+            {
+                "token": "auth token"
+            }
+            
+## Own user data [/user/me]
+
+### Get my user data [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (User)
+
+## User data [/user/{id}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+
+### Get user data [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (User)
+
+### Update user data [PUT]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "username": "new username"
+                "introduction": "new introduction text"
+                "password": "new password"
+            }
+
++ Response 200 (application/json)
+
+## User profile picture [/user/{id}/profile_picture{?width,height}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+    
+### Get profile picture [GET]
+
++ Parameters
+    + width (optional, number, `300`)
+    + height (optional, number, `300`)
+    
++ Request (application/json)
+
+    + Headers
+
+            Accept: image/jpg
+
++ Response 301 (image/jpg)
+
++ Request (application/json)
+
+    + Headers
+
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attribute (ImageThumbnail)
+
+### Upload profile picture [POST]
+
++ Request (image/jpg)
+
++ Response 200 (application/json)
+
+## User spot [/user/{id}/spot{?page,country,city,category,tag,made_by_community,made_by_ambassador}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+
+### Get all spots of a user [GET]
+
++ Parameters
+    + page (optional, number, `1`)
+    + country (optional, number, `1`)
+    + city (optional, number, `1`)
+    + category (optional, number, `1`)
+    + tag (optional, number, `1`)
+    + made_by_community (optional, boolean, `false`)
+    + made_by_ambassador (optional, boolean, `false`)
+
++ Response 200 (application/json)
+
+    + Attribute (Pager_Spot)
+
+## Favourite [/user/{id}/favourite_spot{?page,country,city,category,tag,made_by_community,made_by_ambassador}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+
+### Get all favourites [GET]
+
++ Parameters
+    + page (optional, number, `1`)
+    + country (optional, number, `1`)
+    + city (optional, number, `1`)
+    + category (optional, number, `1`)
+    + tag (optional, number, `1`)
+    + made_by_community (optional, boolean, `false`)
+    + made_by_ambassador (optional, boolean, `false`)
+
++ Response 200 (application/json)
+
+    + Attribute (Pager_Spot)
+
+### Favourite a spot [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "id": 1 // Spot ID
+            }
+
++ Response 200 (application/json)
+
+## Remove favourite [/user/{id}/favourite_spot/{spotID}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+    + spotID (required, number, `1`) - Spot ID
+
+### Remove a spot from favourites [DELETE]
+
++ Response 200 (application/json)
+
+## Follower [/user/{id}/follower{?page,query}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+
+### Get all followers [GET]
+
++ Parameters
+    + page (optional, number, `1`)
+    + query (optional, string, `willo`)
+
++ Response 200 (application/json)
+
+    + Attribute (Pager_User)
+
+## Following [/user/{id}/following{?page,query}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+
+### Get all users who the user is following [GET]
+
++ Parameters
+    + page (optional, number, `1`)
+    + query (optional, string, `willo`)
+
++ Response 200 (application/json)
+
+    + Attribute (Pager_User)
+
+### Follow user [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "id": 1 // User ID
+            }
+
++ Response 200 (application/json)
+
+## Unfollow user [/user/{id}/following/{userID}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+    + userID (required, number, `1`) - User ID
+
+### Unfollow a user [DELETE]
+
++ Response 200 (application/json)
+
+## Ambassador [/ambassador_request]
+
+### Become an ambassador [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "user": {
+                    "id": 44,
+                },
+                "request": "Dear Admin, I world like to be an ambassador"
+            }
+
++ Response 200 (application/json)
+
+## Spot [/spot{?page,country,city,category,tag,made_by_community,made_by_ambassador}]
+
+### Explore spots [GET]
+
++ Parameters
+    + page (optional, number, `1`)
+    + country (optional, number, `1`)
+    + city (optional, number, `1`)
+    + category (optional, number, `1`)
+    + tag (optional, number, `1`)
+    + made_by_community (optional, boolean, `false`)
+    + made_by_ambassador (optional, boolean, `false`)
+
++ Response 200 (application/json)
+
+    + Attribute (Pager_Spot)
+
+### Upload spot [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "name": "spot name",
+                "category": 1,
+                "tags": [1, 2, 3],
+                "average_price": 25,
+                "location": (Location object),
+                "tel": ["+3612345678"],
+                "web": ["http://spotname.hu"],
+                "facebook": "http://facebook.com/spotname",
+                "twitter": "http://twitter.com/spotname",
+                "instagram": "http://instagram.com/spotname"
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": 1
+            }
+
+## Spot data [/spot/{id}]
+
++ Parameters
+    + id (required, number, `1`) - Spot ID
+
+### Get spot data [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (Spot)
+
+## Spot video [/spot/{id}/video]
+
++ Parameters
+    + id (required, number, `1`) - Spot ID
+
+### Get spot videos [GET]
+
++ Response 200 (application/json)
+
+    + Attributes
+        + videos (array[SpotVideo])
+
+### Upload video [POST]
+
++ Request (video/mp4)
+
++ Response 200 (application/json)
+
+## Report spot [/report_spot]
+
+### Report a spot [POST]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "report_reason": "other",
+                "description": "bad web address",
+                "spot": {
+                    "id": 55,
+                }
+            }
+
++ Response 200 (application/json)
+
+## Country [/country]
+
+### Get all countries [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (array[Country])
+
+## City [/city]
+
+### Get all cities [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (array[City])
+
+## Spot Category [/spot_category]
+
+### Get all categories [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (array[SpotCategory])
+    
+## Spot Tag Categories [/spot_tag_category]
+
+### Get all spot tag categories [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (array[SpotTagCategory])
+
+## Spot Tag [/spot_tag]
+
+### Get all tags [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (array[SpotTag])
+
+## Highlighted Search Filters [/highlighted_search_filter]
+
+### Get highlights [GET]
+
++ Response 200 (application/json)
+
+    + Attribute (array[HighlightedSearchFilter])
+
+# Data structures
+
+## UserMeta (object)
+
++ following: true (boolean)
+
+## UserMetaNF (object)
+
++ following: false (boolean)
+
+## User (object)
+
++ id: 1 (number)
++ username: `willo` (string)
++ email: `willo@gmail.com` (string)
++ introduction_text: `Italian food lover, hobby photographer` (string)
++ `localtraveller_spot_count`: 0 (number)
++ spot_count: 0 (number)
++ favourite_count: 0 (number)
++ follower_count: 0 (number)
++ ambassador: false (boolean)
++ current_user
+    + Include UserMeta
+
+## UserNF (object)
+
++ id: 1 (number)
++ username: `willoNF` (string)
++ email: `willo@gmail.com` (string)
++ introduction_text: `Italian food lover, hobby photographer` (string)
++ `localtraveller_spot_count`: 0 (number)
++ spot_count: 0 (number)
++ favourite_count: 0 (number)
++ follower_count: 0 (number)
++ ambassador: false (boolean)
++ current_user
+    + Include UserMetaNF
+
+## `Pager_User` (object)
+
++ total: 2 (number)
++ per_page: 15 (number)
++ current_page: 1 (number)
++ last_page: 1 (number)
++ from: 1 (number)
++ to: 2 (number)
++ data: User, User, UserNF, UserNF (array[User])
+
+## `Pager_Spot` (object)
+
++ total: 2 (number)
++ per_page: 15 (number)
++ current_page: 1 (number)
++ last_page: 1 (number)
++ from: 1 (number)
++ to: 2 (number)
++ data: Spot, Spot (array[Spot])
+
+## SpotMeta (object)
+
++ marked_favourite: true (boolean)
+
+## SpotMetaNF (object)
+
++ marked_favourite: false (boolean)
+
+## Spot (object)
+
++ id: 1 (number)
++ related_user
+    + Include User
++ name: `1906 Restaurant` (string)
++ category
+    + Include SpotCategory
++ tags: SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag (array[SpotTag])
++ average_price: 25 (number)
++ location
+    + Include Location
++ phone_numbers: `+3612345678` (array[string])
++ websites: `http://1906.hu` (array[string])
++ `facebook_page_url`: `http://facebook.com/1906_restaurant` (string)
++ `twitter_page_url`: `http://twitter.com/1906_restaurant` (string)
++ `instagram_page_url`: `http://instagram.com/1906_restaurant` (string)
++ videos: SpotVideo, SpotVideoTS, SpotVideo, SpotVideoTS, SpotVideo, SpotVideoTS, SpotVideo, SpotVideoTS, SpotVideo, SpotVideoTS (array[SpotVideo])
++ `made_by_community`: `true` (boolean)
++ `made_by_ambassador`: `false` (boolean)
++ `is_localtraveller`: false (boolean)
++ soundcloud_link: `https://soundcloud.com/migosatl/bad-and-boujee-feat-lil-uzi-vert-prod-by-metro-boomin` (string)
++ soundcloud_description: `Migos - Bad and Boujee (Feat. Lil Uzi Vert) [Prod. By Metro Boomin]`
++ current_user
+    + Include SpotMeta
+
+## Country (object)
+
++ id: 1 (number)
++ name: `Italy` (string)
+
+## City (object)
+
++ id: 1 (number)
++ name: `Rome` (string)
+
+## SpotCategory (object)
+
++ id: 1 (number)
++ name: `restaurant` (string)
+
+## SpotTagCategory (object)
+
++ id: 1 (number)
++ name: `Food` (string)
++ tags: SpotTag, SpotTag, SpotTag (array[SpotTag])
+
+## SpotTag (object)
+
++ id: 1 (number)
++ name: `italian` (string)
+
+## Location (object)
+
++ formatted_address: `Budapest, Perc u. 6, 1036` (string)
++ lat: 0.1 (number)
++ lng: 0.1 (number)
++ display_address: `prec ucca 6` (string)
++ `google_place_id`: `ChIJD7fiBh9u5kcRYJSMaMOCCwQ` (string)
+
+## SpotVideo (object)
+
++ id: 1 (number)
++ url: `https://dev.clapp.eu/willo/BigBuckBunny.mp4` (string)
++ cover: `https://dev.clapp.eu/willo/BigBuckBunny.png` (string)
++ related_user
+    + Include User
+
+## SpotVideoTS (object)
+
++ id: 2 (number)
++ url: `https://dev.clapp.eu/willo/toystory.mp4` (string)
++ cover: `https://dev.clapp.eu/willo/toystory.png` (string)
++ related_user
+    + Include User
+
+## HighlightedSearchFilter (object)
+
++ id: 1 (number)
++ country
+    + Include Country
++ city
+    + Include City
++ category
+    + Include SpotCategory
++ tag
+    + Include SpotTag
++ `made_by_community`: false (boolean)
++ image: `https://s-media-cache-ak0.pinimg.com/originals/ce/57/28/ce572850873ad639b03c86895759d5c5.jpg` (string)
++ name: `Rome` (string)
+
+## ImageThumbnail (object)
+
++ id: 1 (number)
++ thumbnail_uri: `http://example.com/myimage300x300.jpg` (string)
++ thumbnail_size
+    + width: `300` (number)
+    + height: `300` (number)
++ is_placeholder: `true` (boolean)
