@@ -437,6 +437,17 @@ HOST: https://willo.apiblueprint.org/
 + Response 200 (application/json)
 
     + Attribute (array[HighlightedSearchFilter])
+    
+## Search Autocomplete [/search?query={query}]
+
+### Get search autocomplete [GET]
+
++ Parameters
+    + query (required, string, `Ma`) - keyword
+
++ Response 200 (application/json)
+
+    + Attribute (array[Search])
 
 # Data structures
 
@@ -536,9 +547,13 @@ HOST: https://willo.apiblueprint.org/
 + name: `Italy` (string)
 
 ## City (object)
-
+dd search autocomplete
 + id: 1 (number)
 + name: `Rome` (string)
++ source: `google|database` (string)
++ position (optional, object)
+    + lat: 0.1 (number)
+    + lng: 0.1 (number)
 
 ## SpotCategory (object)
 
@@ -604,3 +619,9 @@ HOST: https://willo.apiblueprint.org/
     + width: `300` (number)
     + height: `300` (number)
 + is_placeholder: `true` (boolean)
+
+## Search (object)
+
++ countries (array[Country])
++ cities (array[City])
++ spots (array[Spot])
