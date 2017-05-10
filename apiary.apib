@@ -281,7 +281,7 @@ HOST: https://willo.apiblueprint.org/
 
 + Response 200 (application/json)
 
-## Spot [/spot{?page,country,city,category,tag,made_by_community,made_by_ambassador}]
+## Spot [/spot{?page,country,city,category,tag,made_by_community,made_by_ambassador,bounding_box,location_near,location_max_distance,query}]
 
 ### Explore spots [GET]
 
@@ -293,6 +293,10 @@ HOST: https://willo.apiblueprint.org/
     + tag (optional, number, `1`)
     + made_by_community (optional, boolean, `false`)
     + made_by_ambassador (optional, boolean, `false`)
+    + bounding_box (optional, string, `0.0,0.0,0.0,0.0 - SElat,SElng,NWlat,NWlng`)
+    + location_near (optional, string, `0.0,0.0 - lat,lng`)
+    + location_max_distance (optional, number, `36000 in km`)
+    + query (optional, string, `keyword`)
 
 + Response 200 (application/json)
 
