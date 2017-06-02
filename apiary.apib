@@ -365,6 +365,23 @@ HOST: https://willo.apiblueprint.org/
                 "id": 1
             }
 
++ Request (application/json)
+
+    + Body
+
+            {
+                "url": "video url",
+                "source": "youtube|vimeo",
+            }
+
++ Response 201 (application/json)
+
+    + Body
+    
+            {
+                "id": 1
+            }
+
 ## Spot video cover image [/spot/{id}/video/{videoID}/cover]
 
 + Parameters
@@ -586,6 +603,7 @@ HOST: https://willo.apiblueprint.org/
 ## SpotVideo (object)
 
 + id: 1 (number)
++ source: `user` (string)
 + url: `https://dev.clapp.eu/willo/BigBuckBunny.mp4` (string)
 + cover: `https://dev.clapp.eu/willo/BigBuckBunny.png` (string)
 + related_user
@@ -594,7 +612,8 @@ HOST: https://willo.apiblueprint.org/
 ## SpotVideoTS (object)
 
 + id: 2 (number)
-+ url: `https://dev.clapp.eu/willo/toystory.mp4` (string)
++ source: `youtube` (string)
++ url: `-L1cFOf8ccU` (string)
 + cover: `https://dev.clapp.eu/willo/toystory.png` (string)
 + related_user
     + Include User
