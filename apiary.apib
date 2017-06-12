@@ -150,6 +150,33 @@ HOST: https://willo.apiblueprint.org/
 
 + Response 200 (application/json)
 
+## User blocking [/user/{id}/block]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+    
+### Block a user [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "id": 1 // User ID
+            }
+
++ Response 200 (application/json)
+
+## Unblock user [/user/{id}/block/{targetUserID}]
+
++ Parameters
+    + id (required, number, `1`) - User ID
+    + targetUserID (required, number, `1`) - Blocked User ID
+
+### Unblock a user [DELETE]
+
++ Response 200 (application/json)
+
 ## User spot [/user/{id}/spot{?page,country,city,category,tag,made_by_community,made_by_ambassador}]
 
 + Parameters
