@@ -412,6 +412,24 @@ HOST: https://willo.apiblueprint.org/
 
 + Response 200 (application/json)
 
+## Report user [/report_user]
+
+### Report a user [POST]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "report_reason": "other",
+                "description": "profanity",
+                "user": {
+                    "id": 1,
+                }
+            }
+
++ Response 200 (application/json)
+
 ## Country [/country]
 
 ### Get all countries [GET]
