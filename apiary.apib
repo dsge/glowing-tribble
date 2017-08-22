@@ -50,6 +50,20 @@ HOST: https://willo.apiblueprint.org/
 
 + Response 200 (application/json)
 
+### Facebook login [POST /auth/facebook]
+
+Login with facebook access token. If user not exists, the backend doesn't create new user, it returns with 401.
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "access_token": "facebook access token"
+            }
+
++ Response 200 (application/json)
+
 ## User [/user{?page,query}]
 
 ### Get all users [GET]
@@ -65,6 +79,7 @@ HOST: https://willo.apiblueprint.org/
 ### Create new user [POST]
 
 + Request (application/json)
+Create user with username, email and password
 
     + Body
     
@@ -72,6 +87,24 @@ HOST: https://willo.apiblueprint.org/
                 "username": "willo"
                 "email": "willo@gmail.com"
                 "password": "willo1234"
+            }
+
++ Response 201
+
+    + Body
+
+            {
+                "token": "auth token"
+            }
+            
++ Request (application/json)
+Create user with username and facebook access token
+
+    + Body
+    
+            {
+                "username": "willo"
+                "access_token": "facebook access token"
             }
 
 + Response 201
