@@ -43,8 +43,9 @@ HOST: https://willo.apiblueprint.org/
     + Body
     
             {
-                "token": "1234"
-                "password": "new password"
+                "token": "1234",
+                "password": "new password",
+                "password_confirmation": "new password",
                 "email": "willo@gmail.com"
             }
 
@@ -64,6 +65,26 @@ Login with facebook access token. If user not exists, the backend doesn't create
 
 + Response 200 (application/json)
 
+### Change token [POST /auth/token]
+
+Renew auth token
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "token": "old auth token"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "token": "new auth token"
+            }
+            
 ## User [/user{?page,query}]
 
 ### Get all users [GET]
@@ -192,11 +213,7 @@ Create user with username and facebook access token
 
 + Request (application/json)
 
-    + Body
-
-            {
-                "id": 1 // User ID
-            }
+    + Attribute(User)
 
 + Response 200 (application/json)
 
@@ -210,7 +227,7 @@ Create user with username and facebook access token
 
 + Response 200 (application/json)
 
-## User spot [/user/{id}/spot{?page,country,city,category,tag,made_by_community,made_by_ambassador}]
+## User spot [/user/{id}/spot{?page,country,city,category,tag,is_localtraveller}]
 
 + Parameters
     + id (required, number, `1`) - User ID
@@ -223,14 +240,13 @@ Create user with username and facebook access token
     + city (optional, number, `1`)
     + category (optional, number, `1`)
     + tag (optional, number, `1`)
-    + made_by_community (optional, boolean, `false`)
-    + made_by_ambassador (optional, boolean, `false`)
+    + is_localtraveller (optional, boolean, `false`)
 
 + Response 200 (application/json)
 
     + Attribute (Pager_Spot)
 
-## Favourite [/user/{id}/favourite_spot{?page,country,city,category,tag,made_by_community,made_by_ambassador}]
+## Favourite [/user/{id}/favourite_spot{?page,country,city,category,tag,is_localtraveller}]
 
 + Parameters
     + id (required, number, `1`) - User ID
@@ -243,8 +259,7 @@ Create user with username and facebook access token
     + city (optional, number, `1`)
     + category (optional, number, `1`)
     + tag (optional, number, `1`)
-    + made_by_community (optional, boolean, `false`)
-    + made_by_ambassador (optional, boolean, `false`)
+    + is_localtraveller (optional, boolean, `false`)
 
 + Response 200 (application/json)
 
@@ -341,7 +356,7 @@ Create user with username and facebook access token
 
 + Response 200 (application/json)
 
-## Spot [/spot{?page,country,city,category,tag,made_by_community,made_by_ambassador,is_localtraveller,bounding_box,location_near,location_max_distance,query}]
+## Spot [/spot{?page,country,city,category,tag,is_localtraveller,bounding_box,location_near,location_max_distance,query}]
 
 ### Explore spots [GET]
 
@@ -351,8 +366,6 @@ Create user with username and facebook access token
     + city (optional, number, `1`)
     + category (optional, number, `1`)
     + tag (optional, number, `1`)
-    + made_by_community (optional, boolean, `false`)
-    + made_by_ambassador (optional, boolean, `false`)
     + is_localtraveller (optional, boolean, `true`)
     + bounding_box (optional, string, `0.0,0.0,0.0,0.0 - NElat,NElng,SWlat,SWlng`)
     + location_near (optional, string, `0.0,0.0 - lat,lng`)
@@ -373,6 +386,7 @@ Create user with username and facebook access token
                 "name": "spot name",
                 "category": 1,
                 "tags": [1, 2, 3],
+                "description": "spot description",
                 "price_category": 3,
                 "location": (Location object),
                 "tel": ["+3612345678"],
@@ -566,16 +580,20 @@ Create user with username and facebook access token
 ## UserMeta (object)
 
 + following: true (boolean)
++ blocking: false (boolean)
 
 ## UserMetaNF (object)
 
 + following: false (boolean)
++ blocking: false (boolean)
 
 ## User (object)
 
 + id: 1 (number)
 + username: `willo` (string)
 + email: `willo@gmail.com` (string)
++ `has_email`: true (boolean)
++ `profile_picture_id`: `pictureid.jpg` (string, optional)
 + introduction_text: `Italian food lover, hobby photographer` (string)
 + `localtraveller_spot_count`: 0 (number)
 + spot_count: 0 (number)
@@ -590,6 +608,8 @@ Create user with username and facebook access token
 + id: 1 (number)
 + username: `willoNF` (string)
 + email: `willo@gmail.com` (string)
++ has_email: true (boolean)
++ `profile_picture_id`: `pictureid.jpg` (string, optional)
 + introduction_text: `Italian food lover, hobby photographer` (string)
 + `localtraveller_spot_count`: 0 (number)
 + spot_count: 0 (number)
@@ -633,6 +653,7 @@ Create user with username and facebook access token
 + related_user
     + Include User
 + name: `1906 Restaurant` (string)
++ description: `spot description` (string, optional)
 + category
     + Include SpotCategory
 + tags: SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag, SpotTag (array[SpotTag])
@@ -728,9 +749,8 @@ Create user with username and facebook access token
     + Include SpotCategory
 + tag
     + Include SpotTag
-+ `made_by_community`: false (boolean)
-+ `made_by_ambassador`: true (boolean)
-+ image: `https://s-media-cache-ak0.pinimg.com/originals/ce/57/28/ce572850873ad639b03c86895759d5c5.jpg` (string)
++ `is_localtraveller`: false (boolean)
++ picture: `https://s-media-cache-ak0.pinimg.com/originals/ce/57/28/ce572850873ad639b03c86895759d5c5.jpg` (string)
 + name: `Rome` (string)
 
 ## ImageThumbnail (object)
